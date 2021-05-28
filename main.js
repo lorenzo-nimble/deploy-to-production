@@ -14,7 +14,7 @@ async function run(){
     let lastBuildMinutes = '00';
     let lastBuildSeconds = '00';
 
-    let { data } = await octokit.rest.issues.listForRepo({ 
+    let issuesSinceLastBuild = await octokit.rest.issues.listForRepo({ 
         owner: context.payload.repository.owner.login,
         repo: context.payload.repository.name,
         state: 'closed',
@@ -22,9 +22,11 @@ async function run(){
         since: `${lastBuildYear}-${lastBuildMonth}-${lastBuildDay}T${lastBuildHour}:${lastBuildMinutes}:${lastBuildSeconds}Z`
     });
 
+    let unfilteredIssues = issuesSinceLastBuild.data;
     let filteredIssues = [];
 
-    for (issue of data){
+
+    for (issue of unfilteredIssues){
         if (!issue.pull_request){
             continue;
         }
