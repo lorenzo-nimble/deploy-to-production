@@ -17,7 +17,7 @@ async function run(){
     let requestObject = { 
         owner: context.payload.repository.owner.login,
         repo: context.payload.repository.name,
-        state: all
+        state: 'all'
         //labels: ['PROD'],
         //since: `${lastBuildYear}-${lastBuildMonth}-${lastBuildDay}T${lastBuildHour}:${lastBuildMinutes}:${lastBuildSeconds}Z`
     }
