@@ -20,7 +20,7 @@ async function run(){
         owner: context.payload.repository.owner.login,
         repo: context.payload.repository.name,
         labels: ['PROD'],
-        since: lastBuildDate.toISOString()
+        //since: lastBuildDate.toISOString()
     }
 
     let issuesSinceLastBuild = await octokit.rest.issues.listForRepo(requestObject);
