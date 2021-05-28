@@ -19,12 +19,11 @@ async function run(){
         repo: context.payload.repository.name,
         state: 'closed',
         labels: ['PROD'],
-        since: `${lastBuildYear}-${lastBuildMonth}-${lastBuildDay}T${lastBuildHour}:${lastBuildMinutes}:${lastBuildSeconds}Z`
+        // since: `${lastBuildYear}-${lastBuildMonth}-${lastBuildDay}T${lastBuildHour}:${lastBuildMinutes}:${lastBuildSeconds}Z`
     });
 
     let unfilteredIssues = issuesSinceLastBuild.data;
     let filteredIssues = [];
-
 
     for (issue of unfilteredIssues){
         if (!issue.pull_request){
