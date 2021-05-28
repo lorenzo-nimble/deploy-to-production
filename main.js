@@ -22,10 +22,11 @@ async function run(){
         // since: `${lastBuildYear}-${lastBuildMonth}-${lastBuildDay}T${lastBuildHour}:${lastBuildMinutes}:${lastBuildSeconds}Z`
     });
 
-    let unfilteredIssues = issuesSinceLastBuild.data;
     let filteredIssues = [];
 
-    for (issue of unfilteredIssues){
+    for (index in issuesSinceLastBuild.data){
+        let issue = issuesSinceLastBuild.data[index];
+
         if (!issue.pull_request){
             continue;
         }
