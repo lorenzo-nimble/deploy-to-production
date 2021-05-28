@@ -17,9 +17,9 @@ async function run(){
     let requestObject = { 
         owner: context.payload.repository.owner.login,
         repo: context.payload.repository.name,
-        state: 'all'
-        //labels: ['PROD'],
-        //since: `${lastBuildYear}-${lastBuildMonth}-${lastBuildDay}T${lastBuildHour}:${lastBuildMinutes}:${lastBuildSeconds}Z`
+        state: 'closed',
+        labels: ['PROD'],
+        since: `${lastBuildYear}-${lastBuildMonth}-${lastBuildDay}T${lastBuildHour}:${lastBuildMinutes}:${lastBuildSeconds}Z`
     }
 
     let issuesSinceLastBuild = await octokit.rest.issues.listForRepo(requestObject);
