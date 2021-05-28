@@ -26,8 +26,6 @@ async function run(){
     let filteredIssues = [];
 
     for (issue of unfilteredIssues){
-        console.log(issue);
-
         if (!issue.pull_request){
             continue;
         }
@@ -53,6 +51,8 @@ async function run(){
 
         filteredIssues.push(pullRequestObject);
     }
+
+    console.log(filteredIssues);
 }
 
 run();
