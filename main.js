@@ -1,26 +1,31 @@
 let core = require("@actions/core");
 let github = require("@actions/github");
 
-let pullRequest = github.context.payload.pull_request;
+async function run(){
+    let repoToken = core.getInput("repo-token", { required: true });
+    let octokit = github.getOctokit(repoToken);
 
-if (!pullRequest) {
-    throw new Error("No pull request information found");
+    const { context } = github;
+
+    let lastBuildYear = 2021;
+    let lastBuildMonth = 5;
+    let lastBuildDay = 1;
+    let lastBuildHour = 0;
+    let lastBuildMinutes = 0;
+    let lastBuildSeconds = 0;
+
+    let lastBuildDate = new Date(lastBuildYear, lastBuildMonth, lastBuildDay, lastBuildHour, lastBuildMinutes, lastBuildSeconds);
+
+    let requestObject = { 
+        owner: context.payload.repository.owner.login,
+        repo: context.payload.repository.name,
+        labels: ['PROD'],
+        since: lastBuildDate
+    }
+
+    let issuesSinceLastBuild = await octokit.rest.issues.listForRepo(requestObject);
+
+    console.log(issuesSinceLastBuild);
 }
 
-let baseBranch = pullRequest.base.ref;
-
-let repoToken = core.getInput("repo-token", { required: true });
-let octokit = github.getOctokit(repoToken);
-
-const { context } = github;
-
-switch(baseBranch){
-    case "master": {
-        octokit.rest.issues.addLabels({ issue_number: pullRequest.number, owner: context.payload.repository.owner.login, repo: context.payload.repository.name, labels: ['PROD'] });
-        break;
-    }
-    case "staging": {
-        octokit.rest.issues.addLabels({ issue_number: pullRequest.number, owner: context.payload.repository.owner.login, repo: context.payload.repository.name, labels: ['STG'] });
-        break;
-    }
-}
+run();
