@@ -14,17 +14,38 @@ async function run(){
     let lastBuildMinutes = '00';
     let lastBuildSeconds = '00';
 
-    let requestObject = { 
+    let issuesSinceLastBuild = await octokit.rest.issues.listForRepo({ 
         owner: context.payload.repository.owner.login,
         repo: context.payload.repository.name,
         state: 'closed',
         labels: ['PROD'],
         since: `${lastBuildYear}-${lastBuildMonth}-${lastBuildDay}T${lastBuildHour}:${lastBuildMinutes}:${lastBuildSeconds}Z`
+    });
+
+    let filteredIssues = [];
+
+    for (issue in issuesSinceLastBuild){
+        if (!issue.pull_request){
+            continue;
+        }
+
+        let mergedIssue = await octokit.rest.pulls.checkIfMerged({ 
+            owner: context.payload.repository.owner.login,
+            repo: context.payload.repository.name,
+            pull_number: issue.number
+        });
+
+        let pullRequestObject = {
+            title: issue.title,
+            url: issue.html_url,
+            merged: mergedIssue,
+            closed_at: issue.closed_at
+        }
+
+        filteredIssues.push(pullRequestObject);
     }
 
-    let issuesSinceLastBuild = await octokit.rest.issues.listForRepo(requestObject);
-
-    console.log(issuesSinceLastBuild.data);
+    console.log(filteredIssues);
 }
 
 run();
