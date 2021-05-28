@@ -22,8 +22,6 @@ async function run(){
         // since: `${lastBuildYear}-${lastBuildMonth}-${lastBuildDay}T${lastBuildHour}:${lastBuildMinutes}:${lastBuildSeconds}Z`
     });
 
-    /*
-
     let unfilteredIssues = issuesSinceLastBuild.data;
     let filteredIssues = [];
 
@@ -46,9 +44,9 @@ async function run(){
         }
 
         filteredIssues.push(pullRequestObject);
-    } */
+    }
 
-    console.log(issuesSinceLastBuild.data);
+    console.log(filteredIssues);
 }
 
 run();
