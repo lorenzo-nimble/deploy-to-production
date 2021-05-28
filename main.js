@@ -14,7 +14,7 @@ async function run(){
     let lastBuildMinutes = '00';
     let lastBuildSeconds = '00';
 
-    let issuesSinceLastBuild = await octokit.rest.issues.listForRepo({ 
+    let { data } = await octokit.rest.issues.listForRepo({ 
         owner: context.payload.repository.owner.login,
         repo: context.payload.repository.name,
         state: 'closed',
@@ -24,11 +24,7 @@ async function run(){
 
     let filteredIssues = [];
 
-    for (index in issuesSinceLastBuild){
-        let issue = issuesSinceLastBuild[index];
-
-        console.log(index, issue);
-
+    for (issue of data){
         if (!issue.pull_request){
             continue;
         }
