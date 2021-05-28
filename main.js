@@ -27,6 +27,8 @@ async function run(){
     for (index in issuesSinceLastBuild){
         let issue = issuesSinceLastBuild[index];
 
+        console.log(index, issue);
+
         if (!issue.pull_request){
             continue;
         }
