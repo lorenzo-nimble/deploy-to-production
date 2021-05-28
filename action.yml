@@ -1,0 +1,12 @@
+name: Deploy to production
+author: Lorenzo Portocarrero
+description: Deploy Bambino backend to production
+
+inputs:
+  repo-token:
+    description: "Repo token"
+    required: true
+
+runs:
+  using: "node12"
+  main: "main.js"
