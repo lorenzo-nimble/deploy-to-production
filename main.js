@@ -24,7 +24,9 @@ async function run(){
 
     let filteredIssues = [];
 
-    for (issue in issuesSinceLastBuild){
+    for (index in issuesSinceLastBuild){
+        let issue = issuesSinceLastBuild[index];
+
         if (!issue.pull_request){
             continue;
         }
