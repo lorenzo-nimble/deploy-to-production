@@ -32,11 +32,17 @@ async function run(){
             continue;
         }
 
-        let mergedIssue = await octokit.rest.pulls.checkIfMerged({ 
-            owner: context.payload.repository.owner.login,
-            repo: context.payload.repository.name,
-            pull_number: issue.number
-        });
+        let mergedIssue;
+
+        try {
+            mergedIssue = await octokit.rest.pulls.checkIfMerged({ 
+                owner: context.payload.repository.owner.login,
+                repo: context.payload.repository.name,
+                pull_number: issue.number
+            });
+        } catch(err){
+            continue;
+        }   
 
         let pullRequestObject = {
             title: issue.title,
