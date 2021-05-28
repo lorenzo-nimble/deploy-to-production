@@ -25,7 +25,7 @@ async function run(){
 
     let issuesSinceLastBuild = await octokit.rest.issues.listForRepo(requestObject);
 
-    console.log(issuesSinceLastBuild);
+    console.log(issuesSinceLastBuild.data);
 }
 
 run();
