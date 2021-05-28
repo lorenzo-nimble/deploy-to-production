@@ -19,9 +19,10 @@ async function run(){
         repo: context.payload.repository.name,
         state: 'closed',
         labels: ['PROD'],
-        // since: `${lastBuildYear}-${lastBuildMonth}-${lastBuildDay}T${lastBuildHour}:${lastBuildMinutes}:${lastBuildSeconds}Z`
+        since: `${lastBuildYear}-${lastBuildMonth}-${lastBuildDay}T${lastBuildHour}:${lastBuildMinutes}:${lastBuildSeconds}Z`
     });
 
+    /* 
     let filteredIssues = [];
 
     for (index in issuesSinceLastBuild.data){
@@ -45,9 +46,9 @@ async function run(){
         }
 
         filteredIssues.push(pullRequestObject);
-    }
+    } */
 
-    console.log(filteredIssues);
+    console.log(issuesSinceLastBuild.data);
 }
 
 run();
