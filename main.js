@@ -30,10 +30,9 @@ async function run(){
             continue;
         }
 
-        let mergedIssue;
-
+        // If merge is not found, continue with the next issue (the PR is not merged)
         try {
-            mergedIssue = await octokit.rest.pulls.checkIfMerged({ 
+            await octokit.rest.pulls.checkIfMerged({ 
                 owner: context.payload.repository.owner.login,
                 repo: context.payload.repository.name,
                 pull_number: issue.number
@@ -45,7 +44,6 @@ async function run(){
         let pullRequestObject = {
             title: issue.title,
             url: issue.html_url,
-            merged: mergedIssue,
             closed_at: issue.closed_at
         }
 
