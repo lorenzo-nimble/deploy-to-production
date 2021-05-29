@@ -13,6 +13,7 @@ async function run(){
 
     let herokuBuilds = await fetch(`https://api.heroku.com/apps/${herokuApp}/releases`, {
         method: 'GET',
+        mode: 'cors',
         headers: {
             'Accept': 'application/vnd.heroku+json; version=3',
             'Authorization': `Bearer ${herokuToken}`,
