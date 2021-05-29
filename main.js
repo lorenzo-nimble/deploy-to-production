@@ -3,23 +3,34 @@ let github = require("@actions/github");
 
 async function run(){
     let repoToken = core.getInput("repo-token", { required: true });
+    let herokuToken = core.getInput("heroku-token", { required: true });
+    let herokuApp = core.getInput("heroku-app", { required: true });
+
     let octokit = github.getOctokit(repoToken);
 
     const { context } = github;
 
-    let lastBuildYear = '2021';
-    let lastBuildMonth = '05';
-    let lastBuildDay = '01';
-    let lastBuildHour = '00';
-    let lastBuildMinutes = '00';
-    let lastBuildSeconds = '00';
+    let herokuBuilds = await fetch(`https://api.heroku.com/apps/${herokuApp}/releases`, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/vnd.heroku+json; version=3',
+            'Authorization': `Bearer ${herokuToken}`,
+            'Range': 'version ..; max=1; order=desc',
+        }
+    });
+
+    const herokuLastBuild = JSON.parse(herokuBuilds)[0];
+
+    let herokuLastBuildDescription = herokuLastBuild.description;
+    let herokuLastBuildVersion = herokuLastBuild.version;
+    let herokuLastBuildDate = herokuLastBuild.created_at;
 
     let issuesSinceLastBuild = await octokit.rest.issues.listForRepo({ 
         owner: context.payload.repository.owner.login,
         repo: context.payload.repository.name,
         state: 'closed',
         labels: ['PROD'],
-        since: `${lastBuildYear}-${lastBuildMonth}-${lastBuildDay}T${lastBuildHour}:${lastBuildMinutes}:${lastBuildSeconds}Z`
+        since: herokuLastBuildDate
     });
 
     let unfilteredIssues = issuesSinceLastBuild.data;
@@ -39,7 +50,7 @@ async function run(){
             });
         } catch(err){
             continue;
-        }   
+        }
 
         let pullRequestObject = {
             title: issue.title,
@@ -50,6 +61,7 @@ async function run(){
         filteredIssues.push(pullRequestObject);
     }
 
+    console.log(herokuLastBuildDate, herokuLastBuildDescription, herokuLastBuildVersion)
     console.log(filteredIssues);
 }
 
