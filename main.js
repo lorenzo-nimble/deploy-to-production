@@ -20,6 +20,8 @@ async function run(){
         }
     });
 
+    console.log(herokuBuilds);
+
     const herokuLastBuild = herokuBuilds.json()[0];
 
     let herokuLastBuildDescription = herokuLastBuild.description;
