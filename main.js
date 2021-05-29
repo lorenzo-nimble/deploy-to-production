@@ -28,8 +28,6 @@ async function run(){
 
     let herokuLastBuild = herokuBuildsParsed[0];
 
-    console.log(herokuLastBuild);
-
     let herokuLastBuildDescription = herokuLastBuild.description;
     let herokuLastBuildVersion = herokuLastBuild.version;
     let herokuLastBuildDate = herokuLastBuild.created_at;
@@ -46,7 +44,15 @@ async function run(){
     let filteredIssues = [];
 
     for (issue of unfilteredIssues){
+        // If issue is not a pull request, continue with the next issue
         if (!issue.pull_request){
+            continue;
+        }
+
+        console.log(Date.parse(herokuLastBuildDate), Date.parse(issue.closed_at));
+
+        // If issue was closed before the last build date, continue with the next issue
+        if (Date.parse(herokuLastBuildDate) > Date.parse(issue.closed_at)){
             continue;
         }
 
@@ -71,7 +77,6 @@ async function run(){
         filteredIssues.push(pullRequestObject);
     }
 
-    console.log(herokuLastBuildDate, herokuLastBuildDescription, herokuLastBuildVersion)
     console.log(filteredIssues);
 }
 
