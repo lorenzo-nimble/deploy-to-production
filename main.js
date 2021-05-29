@@ -11,7 +11,7 @@ async function run(){
 
     const { context } = github;
 
-    var myHeaders = new Headers();
+    var myHeaders = new fetch.Headers();
     myHeaders.append("Accept", "application/vnd.heroku+json; version=3");
     myHeaders.append("Authorization", `Bearer ${herokuToken}`);
     myHeaders.append("Range", "version ..; max=1, order=desc");
