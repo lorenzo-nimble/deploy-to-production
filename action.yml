@@ -6,6 +6,12 @@ inputs:
   repo-token:
     description: "Repo token"
     required: true
+  heroku-token:
+    description: "Heroku token"
+    required: true
+  heroku-app:
+    description: "Heroku app name"
+    required: true
 
 runs:
   using: "node12"
