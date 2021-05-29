@@ -64,6 +64,7 @@ async function run(){
         let pullRequestObject = {
             title: issue.title,
             url: issue.html_url,
+            created_at: issue.created_at,
             closed_at: issue.closed_at
         }
 
