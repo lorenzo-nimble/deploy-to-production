@@ -20,7 +20,7 @@ async function run(){
         }
     });
 
-    const herokuLastBuild = JSON.parse(herokuBuilds)[0];
+    const herokuLastBuild = herokuBuilds.json()[0];
 
     let herokuLastBuildDescription = herokuLastBuild.description;
     let herokuLastBuildVersion = herokuLastBuild.version;
