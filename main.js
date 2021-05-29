@@ -24,9 +24,9 @@ async function run(){
 
     let herokuBuilds = await fetch(`https://api.heroku.com/apps/${herokuApp}/releases`, requestOptions);
 
-    console.log(herokuBuilds.json());
+    let herokuLastBuild = herokuBuilds.json();
 
-    const herokuLastBuild = herokuBuilds.json()[0];
+    console.log(herokuLastBuild);
 
     let herokuLastBuildDescription = herokuLastBuild.description;
     let herokuLastBuildVersion = herokuLastBuild.version;
