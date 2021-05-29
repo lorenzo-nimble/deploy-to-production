@@ -1,5 +1,6 @@
 let core = require("@actions/core");
 let github = require("@actions/github");
+let fetch = require("node-fetch");
 
 async function run(){
     let repoToken = core.getInput("repo-token", { required: true });
