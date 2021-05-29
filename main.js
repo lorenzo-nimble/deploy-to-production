@@ -49,8 +49,6 @@ async function run(){
             continue;
         }
 
-        console.log(Date.parse(herokuLastBuildDate), Date.parse(issue.closed_at));
-
         // If issue was closed before the last build date, continue with the next issue
         if (Date.parse(herokuLastBuildDate) > Date.parse(issue.closed_at)){
             continue;
