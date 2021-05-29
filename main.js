@@ -11,15 +11,18 @@ async function run(){
 
     const { context } = github;
 
-    let herokuBuilds = await fetch(`https://api.heroku.com/apps/${herokuApp}/releases`, {
+    var myHeaders = new Headers();
+    myHeaders.append("Accept", "application/vnd.heroku+json; version=3");
+    myHeaders.append("Authorization", `Bearer ${herokuToken}`);
+    myHeaders.append("Range", "version ..; max=1, order=desc");
+
+    var requestOptions = {
         method: 'GET',
-        mode: 'cors',
-        headers: {
-            'Accept': 'application/vnd.heroku+json; version=3',
-            'Authorization': `Bearer ${herokuToken}`,
-            'Range': 'version ..; max=1; order=desc',
-        }
-    });
+        headers: myHeaders,
+        redirect: 'follow'
+    };
+
+    let herokuBuilds = await fetch(`https://api.heroku.com/apps/${herokuApp}/releases`, requestOptions);
 
     console.log(herokuBuilds);
 
